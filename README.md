@@ -5,4 +5,4 @@
 
 ### 目录
 
-[科里化函数]('./curry/index.html')
+[科里化函数](./curry/index.html)
