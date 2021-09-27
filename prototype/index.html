@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原型</title>
+</head>
+<body>
+    <script>
+        // 构造函数
+        function Fn() {
+            this.code = 'ABC'
+        }
+        Fn.prototype.name = "战三"
+
+        const f1 = new Fn()
+        console.log(f1.__proto__) // 指向构造函数(Fn)的原型对象
+        console.log(Fn.prototype === f1.__proto__)
+        console.log(Fn.prototype.constructor === Fn)
+
+        console.log(Object.prototype)
+
+        const o = Object.create(f1)
+        console.log(o)
+        console.log(o.__proto__)
+        console.log('************原型链***************')
+        function Func(){
+            this.code = 'o'
+        }
+        Func.prototype.say = function(){
+            console.log('aaa')
+        }
+        const t1 = new Func()
+        function NewFunc(){}
+        NewFunc.prototype = t1
+        const t2 = new NewFunc()
+        t2.say()
+    </script>
+</body>
+</html>
