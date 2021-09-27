@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节流</title>
+</head>
+<body>
+    <button id="btn">节流</button>
+    <script>
+        // 在指定的一段时间内只执行一次事件
+        // 利用setTimeout
+        function throttle(fn, wait) {
+            let timeout = null
+            return function() {
+                if(!timeout) {
+                    timeout = setTimeout(() => {
+                        timeout = null
+                        fn.apply()
+                    }, wait);
+                }
+            }
+        }
+        // 时间戳
+        function throttle2(fn, wait){
+            let time = 0;
+            return function() {
+                let now = Date.now()
+                const context = this
+                const args = arguments
+                const s = now - time
+                if (s > wait) {
+                    fn.apply(context, args)
+                    time = now
+                }
+            }
+        }
+        function say() {
+            console.log('我执行了')
+            console.log('我在节流')
+        }
+        document.getElementById('btn').addEventListener('click', throttle(say, 1000))
+    </script>
+</body>
+</html>

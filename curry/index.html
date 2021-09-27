@@ -16,6 +16,7 @@
          * add(1,2,3)(4) = 10
          * add(1)(2)(3)(4)(5) = 15
          */
+        // 科里化函数解释：
         function add(...args) {
             const _args = Array.prototype.slice.call(args)
 

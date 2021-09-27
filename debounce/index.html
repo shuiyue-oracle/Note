@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防抖</title>
+</head>
+<body>
+    <!-- 什么情况下防抖 -->
+    <button id="btn">防抖</button>
+    <script>
+        // 利用setTimeout
+        function debounce(fn, wait) {
+            let timeout = null
+            return function() {
+                const context = this
+                const args = arguments
+
+                if(timeout) clearTimeout(timeout);
+
+                let now = !timeout
+                timeout =  setTimeout(()=>{
+                    timeout = null
+                }, wait)
+                if(now) {
+                    fn.call(context, args)
+                }
+            }
+        }
+        function say() {
+            console.log('我执行了')
+            console.log('我再防抖')
+        }
+        document.getElementById('btn').addEventListener('click', debounce(say, 1000))
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./index.js"></script>
+    <script>
+        const data = list.data
+
+        const dataList = [
+            {
+                name: '拦截',
+                a1: [],
+                a2: [],
+                a3: [],
+                a4: [],
+                a5: [],
+                tableList: []
+            },
+            {
+                name: '放行',
+                a1: [],
+                a2: [],
+                a3: [],
+                a4: [],
+                a5: [],
+                tableList: []
+            }
+        ]
+        for(const p of dataList) {
+            for (const item of data.autoAuditLevelOneModels) {
+                p.a1.push(item)
+                for (const ele of data.autoAuditLevelTwoModels) {
+                    if(item.temporaryId === ele.parentTemporaryId && ele.name === p.name) {
+                        p.a2.push(ele)
+                        for (const v of data.autoAuditLevelThreeModels) {
+                            if(ele.temporaryId === v.parentTemporaryId) {
+                                p.a3.push(v)
+                                for (const e of data.autoAuditLevelFourModels) {
+                                    if(v.temporaryId === e.parentTemporaryId) {
+                                        p.a4.push(e)
+                                        for (const m of data.vipAutoAuditConfigItems) {
+                                            if(e.temporaryId === m.parentTemporaryId) {
+                                                p.a5.push(m)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for(const p of dataList) {
+            for (const t of p.a4) {
+                const o = {
+                    t1: [],
+                    t2: [],
+                    t3: []
+                }
+                o.t1 = t
+                // 条件
+                for(const b of p.a5) {
+                    if(b.parentTemporaryId === t.temporaryId) {
+                        o.t3.push(b)
+                    }
+                }
+                // 查找当前场景所属的加/调/请
+                for(const k of p.a3) {
+                    if(t.parentTemporaryId === k.temporaryId) {
+                        for(const m of p.a2) {
+                            if(k.parentTemporaryId === m.temporaryId) {
+                                for(const v of p.a1) {
+                                    if(m.parentTemporaryId === v.temporaryId) {
+                                        o.t2.push(v)
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                p.tableList.push(o)
+            }
+        }
+        console.log(dataList)
+    </script>
+</body>
+</html>
